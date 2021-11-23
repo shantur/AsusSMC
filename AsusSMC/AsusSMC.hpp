@@ -47,7 +47,7 @@ public:
     IOReturn message(uint32_t type, IOService *provider, void *argument) override;
 
     void letSleep();
-    void toggleAirplaneMode();
+    void toggleAirplaneMode(int on);
     void toggleTouchpad();
     void toggleALS(bool state);
     void toggleBatteryConservativeMode(bool state);

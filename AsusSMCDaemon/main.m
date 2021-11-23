@@ -126,15 +126,14 @@ void goToSleep() {
     }
 }
 
-BOOL airplaneModeEnabled = NO, lastWifiState;
+BOOL lastWifiState;
 int lastBluetoothState;
-void toggleAirplaneMode() {
-    airplaneModeEnabled = !airplaneModeEnabled;
+void toggleAirplaneMode(int on) {
 
     CWInterface *currentInterface = [CWWiFiClient.sharedWiFiClient interface];
     NSError *err = nil;
 
-    if (airplaneModeEnabled) {
+    if (on == 1) {
         lastWifiState = currentInterface.powerOn;
         lastBluetoothState = IOBluetoothPreferenceGetControllerPowerState();
         [currentInterface setPower:NO error:&err];
@@ -216,7 +215,7 @@ int main(int argc, const char *argv[]) {
                     showKBoardBLightStatus(message->x, message->y);
                     break;
                 case kDaemonAirplaneMode:
-                    toggleAirplaneMode();
+                    toggleAirplaneMode(message->x);
                     break;
                 case kDaemonSleep:
                     goToSleep();

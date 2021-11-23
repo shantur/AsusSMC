@@ -500,17 +500,21 @@ void AsusSMC::handleMessage(int code) {
 
         // Media buttons
         case 0x40:
-        case 0x8A:
+//        case 0x8A:
             dispatchCSMRReport(kHIDUsage_Csmr_ScanPreviousTrack);
             break;
 
         case 0x41:
-        case 0x82:
+//        case 0x82:
             dispatchCSMRReport(kHIDUsage_Csmr_ScanNextTrack);
             break;
-
+            
+        case 0x43:
+            dispatchCSMRReport(kHIDUsage_Csmr_Stop);
+            break;
+            
         case 0x45:
-        case 0x5C:
+//        case 0x5C:
             dispatchCSMRReport(kHIDUsage_Csmr_PlayOrPause);
             break;
 
@@ -529,7 +533,7 @@ void AsusSMC::handleMessage(int code) {
             break;
 
         case 0x5E:
-            letSleep();
+//            letSleep();
             break;
 
         case 0x7A: // Fn + A, ALS Sensor
@@ -540,9 +544,13 @@ void AsusSMC::handleMessage(int code) {
             break;
 
         case 0x7D: // Airplane mode
-            toggleAirplaneMode();
+            toggleAirplaneMode(0);
             break;
 
+        case 0x7E: // Airplane mode
+            toggleAirplaneMode(1);
+            break;
+            
         case 0xC6:
         case 0xC7: // ALS Notifcations
             // ignore
@@ -575,8 +583,8 @@ void AsusSMC::letSleep() {
     kev.sendMessage(kDaemonSleep, 0, 0);
 }
 
-void AsusSMC::toggleAirplaneMode() {
-    kev.sendMessage(kDaemonAirplaneMode, 0, 0);
+void AsusSMC::toggleAirplaneMode(int on) {
+    kev.sendMessage(kDaemonAirplaneMode, on, 0);
 }
 
 void AsusSMC::toggleTouchpad() {
